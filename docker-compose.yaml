@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+
+  app:
+    build:
+      context: ./docker/node
+    image: gabrieldarosa/node-t1
+    container_name: node
+    volumes:
+      - ./app/:/usr/src/app
+    ports:
+      - 3000:3000
