@@ -23,6 +23,20 @@ services:
       - 80:80
     networks:
       - test
+    
+  gdb:
+    build:
+      context: ./docker/postgreSQL
+    image: gabrieldarosa/postgre-t1
+    container_name: postgre-t1
+    volumes:
+      - ./docker/postgreSQL/data/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database_postgres
+    networks:
+      - test
 
 networks:
   test:
