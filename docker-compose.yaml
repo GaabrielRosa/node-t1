@@ -6,11 +6,11 @@ services:
     build:
       context: ./docker/node
     image: gabrieldarosa/node-t1
-    container_name: node
-    volumes:
-      - ./app/:/usr/src/app
+    container_name: node1
     ports:
       - 3000
+    volumes:
+      - ./app/:/usr/src/app
     networks:
       - test
   
@@ -18,7 +18,7 @@ services:
     build:
       context: ./docker/nginx
     image: gabrieldarosa/nginx-t1
-    container_name: nginx-t1
+    container_name: nginx1
     ports:
       - 80:80
     networks:
@@ -28,9 +28,9 @@ services:
     build:
       context: ./docker/postgreSQL
     image: gabrieldarosa/postgre-t1
-    container_name: postgre-t1
+    container_name: postgre1
     volumes:
-      - ./docker/postgreSQL/data/:/var/lib/postgresql/data/
+      - ./docker/postgreSQL/data/:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
