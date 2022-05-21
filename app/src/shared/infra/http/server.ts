@@ -1,33 +1,45 @@
-import express, { Request, Response } from 'express';
-import { Client } from 'pg'
+import 'reflect-metadata';
 
-const app = express();
-const port = 3000;
+import express, { NextFunction, Request, Response } from 'express';
 
-const client = new Client({
-  user: 'postgres',
-  host: 'gdb',
-  database: 'database_postgres',
-  password: 'postgres',
-  port: 5432,
-})
+import { getDbConnection } from '../typeorm';
+import { InversifyExpressServer } from 'inversify-express-utils';
+import AppError from '@shared/errors/AppError';
+import { Container } from 'inversify';
 
-client.connect(function(err) {
-  if (err) throw err;
-});
+(async () => {
+  await getDbConnection();
+  
+  const server = new InversifyExpressServer(new Container());
 
-app.get('/person/insert', async (req: Request, res: Response) => {
-  await client.query('create table person (id int primary key not null, nome varchar)')
-  await client.query(`insert into person VALUES (1, 'RONALDO')`)
-  await client.query(`insert into person VALUES (2, 'RUTILDE')`)
-  return res.json({ message: 'Processo concluído!' })
-})
+  server.setConfig((app) => {
+    app.use(express.urlencoded({
+      extended: true
+    }));
+    app.use(express.json());
+    //app.use(cors());
+  });
+  
+  server.setErrorConfig(app => {    
+    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+      console.error(err);
 
-app.get('/', async (req: Request, res: Response) => {
-  const { rows } = await client.query('SELECT * FROM person');
-  return res.json(rows)
-})
+      if (err instanceof AppError) {
+        return res.status(err.statusCode).json({
+          status: 'error',
+          message: err.message
+        });
+      }
 
-app.listen(port, () => {
-  console.log('Server started in port '+port)
-})
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error'
+      });
+    });
+  }); 
+  const app = server.build();
+
+  app.listen(3000, () => {
+    console.log('Server started on port 3000');
+  });
+})();

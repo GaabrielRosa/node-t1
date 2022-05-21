@@ -7,8 +7,6 @@ services:
       context: ./docker/node
     image: gabrieldarosa/node-t1
     container_name: node1
-    ports:
-      - 3000
     volumes:
       - ./app/:/usr/src/app
     networks:
