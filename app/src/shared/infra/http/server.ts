@@ -6,11 +6,12 @@ import { getDbConnection } from '../typeorm';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import AppError from '@shared/errors/AppError';
 import { Container } from 'inversify';
+import { containerBindings } from '@shared/container';
 
 (async () => {
   await getDbConnection();
   
-  const server = new InversifyExpressServer(new Container());
+  const server = new InversifyExpressServer(containerBindings);
 
   server.setConfig((app) => {
     app.use(express.urlencoded({
