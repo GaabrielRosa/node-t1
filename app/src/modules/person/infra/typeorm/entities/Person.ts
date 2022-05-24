@@ -1,9 +1,9 @@
 import { PersonDTO } from '@modules/person/models/Person';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('person')
 export class Person implements PersonDTO {
-  @Column()
+  @PrimaryColumn()
   id: string;
 
   @Column()

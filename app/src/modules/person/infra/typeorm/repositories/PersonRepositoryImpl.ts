@@ -5,13 +5,9 @@ import { injectable } from 'inversify';
 import { Repository } from 'typeorm';
 import { Person } from '../entities/Person';
 
-injectable()
+@injectable()
 class PersonRepositoryImpl implements PersonRepository {
   private repository: Repository<Person>
-
-  constructor() {
-  
-  }
 
   async findAll(): Promise<PersonDTO[]> {
     const dataSource = await getDbConnection();
