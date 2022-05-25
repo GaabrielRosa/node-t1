@@ -2,14 +2,14 @@ import 'reflect-metadata';
 
 import express, { NextFunction, Request, Response } from 'express';
 
-import { getDbConnection } from '../typeorm';
+import { initializeDbConnection } from '../typeorm';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import AppError from '@shared/errors/AppError';
 import { Container } from 'inversify';
 import { containerBindings } from '@shared/container';
 
 (async () => {
-  await getDbConnection();
+  await initializeDbConnection();
   
   const server = new InversifyExpressServer(containerBindings);
 
