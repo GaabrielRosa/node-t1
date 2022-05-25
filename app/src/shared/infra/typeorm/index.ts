@@ -10,16 +10,16 @@ const entities = [
   'src/modules/**/infra/typeorm/entities/*.ts',
 ];
 
-export async function getDbConnection() { 
-  const appDataSource = new DataSource({
-    type: 'postgres',
-    host: DATABASE_HOST,
-    port: DATABASE_PORT, 
-    username: DATABASE_USER, 
-    password: DATABASE_PASSWORD,
-    database: DATABASE_DB,
-    entities: entities,
-  });
+export const getDbConnection = new DataSource({
+  type: 'postgres',
+  host: DATABASE_HOST,
+  port: DATABASE_PORT, 
+  username: DATABASE_USER, 
+  password: DATABASE_PASSWORD,
+  database: DATABASE_DB,
+  entities: entities,
+});
 
-  return await appDataSource.initialize();
+export async function initializeDbConnection() {
+  return await getDbConnection.initialize();
 }
