@@ -5,7 +5,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import { initializeDbConnection } from '../typeorm';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import AppError from '@shared/errors/AppError';
-import { Container } from 'inversify';
 import { containerBindings } from '@shared/container';
 
 (async () => {
