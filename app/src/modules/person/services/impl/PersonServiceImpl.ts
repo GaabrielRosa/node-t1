@@ -12,7 +12,6 @@ class PersonServiceImpl implements PersonService {
     private personRepository: PersonRepository,
   ) {}
 
-
   async findAll(): Promise<Person[]> {
     const personList = await this.personRepository.findAll();
     return personList.map(dto => dto as Person);
