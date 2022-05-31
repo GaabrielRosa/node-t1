@@ -18,6 +18,7 @@ export const getDbConnection = new DataSource({
   password: DATABASE_PASSWORD,
   database: DATABASE_DB,
   entities: entities,
+  migrations: ['src/shared/infra/typeorm/migrations/*{.ts,.js}'],
 });
 
 export async function initializeDbConnection() {
