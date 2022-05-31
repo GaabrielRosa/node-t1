@@ -1,4 +1,4 @@
 import { getDbConnection } from '@shared/infra/typeorm';
-import { Person } from '../entities/Person';
+import { Client } from '../entities/Client';
 
-export const getRepositoryPerson = getDbConnection.getRepository(Person);
+export const getRepositoryClient = getDbConnection.getRepository(Client);
