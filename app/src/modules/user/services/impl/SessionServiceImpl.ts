@@ -23,10 +23,6 @@ export class SessionServiceImpl implements SessionService {
   async auth(credentials: SessionCredentialsDTO): Promise<ResponseSessionDTO> {
     const user = await this.userService.findByEmail(credentials.email);
 
-    if (!user) {
-      throw new AppError('Incorrect email/password combination.', 401);
-    }
-
     const passwordMatched = await this.hashProvider.compareHash(credentials.password, user.password);
 
     if (!passwordMatched) {
