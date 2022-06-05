@@ -1,34 +1,24 @@
-import { UserRepositoryImpl } from '@modules/user/infra/typeorm/repositories/UserRepositoryImpl';
-import { fakeUserRepository, userMock } from '@modules/user/mocks/UserMock';
+import 'reflect-metadata';
+import { userRepositoryMock, userDataMock } from '@modules/user/mocks/UserMock';
 import AppError from '@shared/errors/AppError';
 import { UserServiceImpl } from './UserServiceImpl';
 
-let userService: UserServiceImpl;
+const userService = new UserServiceImpl(userRepositoryMock);
 
-UserRepositoryImpl as jest.Mock<UserRepositoryImpl>;
-
-describe('UserService', () => {  
-  beforeAll(() => {
-    userService = new UserServiceImpl(fakeUserRepository);
-  });
-
-  beforeEach(() => {
-    fakeUserRepository.findByEmail.mockReset();
-  });
-
+describe('UserService', () => {
   describe('Find By Email', () => {
     it('should be able list user with email test@test.com', async () => {
-      fakeUserRepository.findByEmail.mockResolvedValueOnce(userMock);
+      userRepositoryMock.findByEmail.mockResolvedValueOnce(userDataMock);
             
-      const user = await userService.findByEmail(userMock.email);
+      const user = await userService.findByEmail(userDataMock.email);
 
-      expect(user).toHaveProperty('email',userMock.email);
-      expect(fakeUserRepository.findByEmail).toHaveBeenCalledTimes(1);
-      expect(fakeUserRepository.findByEmail).toHaveBeenCalledWith(userMock.email);
+      expect(user).toHaveProperty('email',userDataMock.email);
+      expect(userRepositoryMock.findByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepositoryMock.findByEmail).toHaveBeenCalledWith(userDataMock.email);
     });
 
     it('should return an error when not finding a user by the given email', async () => {
-      fakeUserRepository.findByEmail.mockResolvedValueOnce(null);
+      userRepositoryMock.findByEmail.mockResolvedValueOnce(null);
 
       await userService.findByEmail('email-non-exists').catch(e => {
         expect(e).toBeInstanceOf(AppError);
@@ -36,8 +26,8 @@ describe('UserService', () => {
             message: `User not found`
         });
       });
-      expect(fakeUserRepository.findByEmail).toHaveBeenCalledTimes(1);
-      expect(fakeUserRepository.findByEmail).toHaveBeenCalledWith('email-non-exists');
+      expect(userRepositoryMock.findByEmail).toHaveBeenCalledTimes(1);
+      expect(userRepositoryMock.findByEmail).toHaveBeenCalledWith('email-non-exists');
     });
   });
 });

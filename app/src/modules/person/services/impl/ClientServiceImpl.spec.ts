@@ -1,21 +1,11 @@
-import { ClientRepositoryImpl } from '@modules/person/infra/typeorm/repositories/ClientRepositoryImpl';
-import { fakeClientRepository } from '@modules/person/mocks/ClientMock';
+import 'reflect-metadata';
+import { clientRepositoryMock } from '@modules/person/mocks/ClientMock';
 import { ClientDTO } from '@modules/person/models/Client';
 import { ClientServiceImpl } from './ClientServiceImpl';
 
-let clientService: ClientServiceImpl;
+const clientService = new ClientServiceImpl(clientRepositoryMock);
 
-ClientRepositoryImpl as jest.Mock<ClientRepositoryImpl>;
-
-describe('ClientService', () => {  
-  beforeAll(() => {
-    clientService = new ClientServiceImpl(fakeClientRepository);
-  });
-
-  beforeEach(() => {
-    fakeClientRepository.findAll.mockReset();
-  });
-
+describe('ClientService', () => {
   describe('Find All', () => {
     const client1: ClientDTO = {
       id: '05854be3-eadb-4067-8b4d-2c316449f220',
@@ -28,12 +18,12 @@ describe('ClientService', () => {
     } 
 
     it('should be able list all clients', async () => {
-      fakeClientRepository.findAll.mockResolvedValueOnce([client1, client2]);
+      clientRepositoryMock.findAll.mockResolvedValueOnce([client1, client2]);
             
       const clientList = await clientService.findAll();
 
       expect(clientList).toHaveLength(2);
-      expect(fakeClientRepository.findAll).toHaveBeenCalledTimes(1);
+      expect(clientRepositoryMock.findAll).toHaveBeenCalledTimes(1);
     });
   });
 });
