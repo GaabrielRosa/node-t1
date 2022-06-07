@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { hashProviderMock } from '@modules/user/mocks/HashProviderMock';
 import { userDataMock, userServiceMock } from '@modules/user/mocks/UserMock';
 import { User } from '@modules/user/models/User';

@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { userRepositoryMock, userDataMock } from '@modules/user/mocks/UserMock';
 import AppError from '@shared/errors/AppError';
 import { UserServiceImpl } from './UserServiceImpl';
