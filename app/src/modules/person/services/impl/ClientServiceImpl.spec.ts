@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { clientRepositoryMock } from '@modules/person/mocks/ClientMock';
 import { ClientDTO } from '@modules/person/models/Client';
 import { ClientServiceImpl } from './ClientServiceImpl';
