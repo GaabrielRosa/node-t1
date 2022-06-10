@@ -3,6 +3,9 @@ import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '../../../swagger.json';
+
 import { initializeDbConnection } from '../typeorm';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import AppError from '@shared/errors/AppError';
@@ -18,6 +21,7 @@ import { containerBindings } from '@shared/container';
       extended: true
     }));
     app.use(express.json());
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
     //app.use(cors());
   });
   
