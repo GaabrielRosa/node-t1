@@ -11,19 +11,13 @@ async function create() {
   await connection.initialize();
 
   const forLoop = async () => {
-    for (let index = 0; index < NUMBER_OF_COSTUMERS; index++) {
+    for await (const iterator of Array.from(Array(NUMBER_OF_COSTUMERS).keys())) {
+      const id = UUIDV4();
+      const randomName = uniqueNamesGenerator({
+        dictionaries: [names]
+      })
 
-      console.log(index)
-
-      setTimeout(async () => {
-        const id = UUIDV4();
-        const randomName = uniqueNamesGenerator({
-          dictionaries: [names]
-        })
-  
-        await connection.query(`INSERT INTO CLIENT (id, name) VALUES ('${id}', '${randomName}')`);
-      }, 400)
-      
+      await connection.query(`INSERT INTO CLIENT (id, name) VALUES ('${id}', '${randomName}')`);
     }
   } 
 
