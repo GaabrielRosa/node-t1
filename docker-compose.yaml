@@ -7,8 +7,7 @@ services:
       context: ./docker/node
     image: gabrieldarosa/node-t1
     container_name: node1
-    entrypoint: dockerize -wait tcp://dbpostgres:5432 -wait tcp://dbredis:6379 -timeout 40s ./docker/node/entrypoint.sh
-    #tail -f /dev/null #docker-entrypoint.sh
+    entrypoint: dockerize -wait tcp://dbpostgres:5432 -wait tcp://dbredis:6379 -timeout 40s ./entrypoint.sh
     volumes:
       - ./app/:/usr/src/app
     networks:
