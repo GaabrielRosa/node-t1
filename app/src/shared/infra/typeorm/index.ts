@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 
-const DATABASE_HOST = 'gdb';
+const DATABASE_HOST = 'dbpostgres';
 const DATABASE_USER = 'postgres';
 const DATABASE_PORT = 5432;
 const DATABASE_PASSWORD = 'postgres';

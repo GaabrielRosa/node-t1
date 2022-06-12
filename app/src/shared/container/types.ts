@@ -7,6 +7,7 @@ const TYPES = {
   
   // Providers
   HashProvider: Symbol('HashProvider'),
+  CacheProvider: Symbol('CacheProvider'),
 
   //Middlewares
   EnsureAuthenticated: Symbol('EnsureAuthenticated'), 

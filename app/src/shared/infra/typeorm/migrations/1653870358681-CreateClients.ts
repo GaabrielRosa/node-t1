@@ -14,8 +14,7 @@ export class CreateClients1653870358681 implements MigrationInterface {
         },
         {
           name: 'name',
-          type: 'varchar',
-          isUnique: true,
+          type: 'varchar'
         },
       ]
     }))
