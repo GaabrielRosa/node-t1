@@ -11,6 +11,8 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import AppError from '@shared/errors/AppError';
 import { containerBindings } from '@shared/container';
 import { rateLimiter } from './middlewares/rateLimiter';
+import { contentTypeNegotiation } from './middlewares/contentTypeNegotiation';
+import { acceptTypeNegotiation } from './middlewares/acceptTypeNegotiation';
 
 (async () => {
   await initializeDbConnection();
@@ -24,6 +26,8 @@ import { rateLimiter } from './middlewares/rateLimiter';
     app.use(express.json());
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
     app.use(rateLimiter);
+    app.use(contentTypeNegotiation);
+    app.use(acceptTypeNegotiation);    
     //app.use(cors());
   });
   
