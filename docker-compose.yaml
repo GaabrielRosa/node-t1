@@ -9,7 +9,7 @@ services:
     container_name: node1
     entrypoint: dockerize -wait tcp://dbpostgres:5432 -wait tcp://dbredis:6379 -timeout 40s ./entrypoint.sh
     volumes:
-      - ./app/:/usr/src/app
+      - .:/usr/src/app
     networks:
       - test
     depends_on:
