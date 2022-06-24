@@ -26,10 +26,6 @@ class ClientServiceImpl implements ClientService {
       await this.cacheProvider.save('clients-list', clientList);
     }
 
-    if (!clientList) {
-      return [];
-    }
-
     return clientList;
   }
 
