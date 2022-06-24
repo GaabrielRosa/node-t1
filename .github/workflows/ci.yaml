@@ -1,0 +1,19 @@
+name: ci-node-workflow
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  check-application:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node-v3
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm run migration:up
+      - run: npm run test
+      - run: npm run dev
