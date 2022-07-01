@@ -7,7 +7,7 @@ services:
       context: ./docker/node
     image: gabrieldarosa/node-t1
     container_name: node1
-    entrypoint: dockerize -wait tcp://dbpostgres:5432 -wait tcp://dbredis:6379 -timeout 40s ./entrypoint.sh
+    entrypoint: dockerize -wait tcp://dbpostgres:5432 -wait tcp://dbredis:6379 -timeout 40s tail -f /dev/null ##./entrypoint.sh
     volumes:
       - .:/usr/src/app
     networks:
@@ -36,6 +36,18 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: database_postgres
+    networks:
+      - test
+    
+  dbpostgrestest:
+    build:
+      context: ./docker/postgreSQL
+    image: gabrieldarosa/postgre-t1-test
+    container_name: postgre1test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database_postgres_test
     networks:
       - test
 
