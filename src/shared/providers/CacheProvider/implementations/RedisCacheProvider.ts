@@ -2,19 +2,16 @@ import Redis, { Redis as RedisClient } from 'ioredis';
 import { injectable } from 'inversify';
 
 import CacheProvider from '../models/CacheProvider';
+import { redisConnection } from '@shared/infra/redis';
 
 @injectable()
 class RedisCacheProvider implements CacheProvider {
   private client: RedisClient;
 
   constructor() {
-    this.client = new Redis({
-      host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT),
-      password: process.env.REDIS_PASS || undefined,
-    });
+    this.client = redisConnection;
   }
-
+  
   public async save(key: string, value: any): Promise<void> {
     await this.client.set(key, JSON.stringify(value));
   }

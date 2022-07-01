@@ -1,9 +1,18 @@
+import { DataSource } from 'typeorm';
+import request from 'supertest';
+import { randomUUID } from 'crypto';
+
 import { clientRepositoryMock } from '@modules/person/mocks/ClientMock';
 import { ClientDTO } from '@modules/person/models/Client';
 import { cacheProviderMock } from '@shared/providers/mocks/CacheProviderMock';
 import { ClientServiceImpl } from './ClientServiceImpl';
+import { initializeDbConnection } from '@shared/infra/typeorm';
+import { serverApp } from '@shared/infra/http/server';
+import { redisConnection } from '@shared/infra/redis';
 
 const clientService = new ClientServiceImpl(clientRepositoryMock, cacheProviderMock);
+
+let connection: DataSource;
 
 describe('ClientService', () => {
   describe('Find All', () => {
@@ -55,6 +64,48 @@ describe('ClientService', () => {
 
       expect(cacheProviderMock.save).toHaveBeenCalledTimes(1);
       expect(cacheProviderMock.save).toHaveBeenCalledWith('clients-list', [client1, client2]);
+    });
+  });
+
+  describe('FindAll e2e', () => {
+    beforeAll(async () => {
+      connection = await initializeDbConnection();
+      await connection.runMigrations();
+
+      await connection.query(`INSERT INTO "user" (id, email, name, password) 
+        VALUES ('${randomUUID()}','${process.env.SEED_USER_EMAIL}', 'Test', '${process.env.SEED_USER_PASSWORD_HASH}')`);
+
+      await connection.query(`INSERT INTO client (id, name) VALUES ('${randomUUID()}', 'John Doe');`);
+      await connection.query(`INSERT INTO client (id, name) VALUES ('${randomUUID()}', 'Jane Doe');`);
+    })
+  
+    afterAll(async () => {
+      await connection.dropDatabase();
+      await connection.destroy();
+      await redisConnection.flushall();
+      redisConnection.disconnect();
+    })
+
+    it('should be able to list all clients', async () => {
+      const requestServer = request(serverApp);
+
+      const responseToken = await requestServer
+        .post('/auth')
+        .set('Accept', 'application/json')
+        .send({
+          email: 'test@test.com',
+          password: 'admin',
+        })
+
+      const token = responseToken.body.token;
+
+      const response = await requestServer
+        .get('/client')
+        .set('Accept', 'application/json')
+        .set('Authorization', 'bearer ' + token)
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(2);
     });
   });
 });

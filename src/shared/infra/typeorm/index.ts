@@ -12,11 +12,11 @@ const entities = [
 
 export const getDbConnection = new DataSource({
   type: 'postgres',
-  host: DATABASE_HOST,
+  host: process.env.NODE_ENV === 'test' ? 'dbpostgrestest' : DATABASE_HOST,
   port: DATABASE_PORT, 
   username: DATABASE_USER, 
   password: DATABASE_PASSWORD,
-  database: DATABASE_DB,
+  database: process.env.NODE_ENV === 'test' ? 'database_postgres_test' : DATABASE_DB,
   entities: entities,
   migrations: ['src/shared/infra/typeorm/migrations/*{.ts,.js}'],
 });

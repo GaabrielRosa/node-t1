@@ -1,4 +1,4 @@
-import { v4 as UUIDV4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { uniqueNamesGenerator, names } from 'unique-names-generator';
 
 import { getDbConnection } from '..';
@@ -12,7 +12,7 @@ async function create() {
 
   const forLoop = async () => {
     for await (const iterator of Array.from(Array(NUMBER_OF_COSTUMERS).keys())) {
-      const id = UUIDV4();
+      const id = randomUUID();
       const randomName = uniqueNamesGenerator({
         dictionaries: [names]
       })

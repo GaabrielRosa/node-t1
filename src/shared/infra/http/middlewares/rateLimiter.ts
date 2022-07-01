@@ -1,12 +1,9 @@
+import { redisConnection } from '@shared/infra/redis';
 import { Request, Response, NextFunction } from 'express';
-import Redis, { Redis as RedisClient } from 'ioredis';
+import { Redis as RedisClient } from 'ioredis';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 
-const redisClient: RedisClient = new Redis({
-  host: process.env.REDIS_HOST,
-  port: Number(process.env.REDIS_PORT),
-  password: process.env.REDIS_PASS || undefined,
-});
+const redisClient: RedisClient = redisConnection;
 
 const limiter = new RateLimiterRedis({
   storeClient: redisClient,
@@ -17,10 +14,12 @@ const limiter = new RateLimiterRedis({
 
 export async function rateLimiter(req: Request, res: Response, next: NextFunction): Promise<void>  {
   try {
-    await limiter.consume(req.ip);
+    //await limiter.consume(req.ip);
 
     return next();
   } catch (err) {
+    console.log(err)
+
     res.status(429).json({
       status: 'error',
       message: 'Too many request'
