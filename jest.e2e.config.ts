@@ -7,7 +7,7 @@ export default {
   collectCoverageFrom: [
     '<rootDir>/src/modules/**/services/impl/*.ts'
   ],
-  coverageDirectory: 'coverage',
+  coverageDirectory: 'coverage/e2e',
   coverageProvider: 'v8',
   coverageReporters: [
     'text-summary',
@@ -16,7 +16,7 @@ export default {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' }),
   preset: 'ts-jest',
   testMatch: [
-	  '**/*.spec.ts'
+	  '<rootDir>/src/modules/**/tests/e2e/*.spec.ts'
 	],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

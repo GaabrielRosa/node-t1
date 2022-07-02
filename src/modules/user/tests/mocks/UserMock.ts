@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
 
-import { UserDTO } from '../models/User';
-import { UserRepository } from '../repositories/UserRepository';
-import { UserService } from '../services/UserService';
+import { UserDTO } from '@modules/user/models/User';
+import { UserRepository } from '@modules/user/repositories/UserRepository';
+import { UserService } from '@modules/user/services/UserService';
 
 export const userDataMock: UserDTO = {
   id: randomUUID(),

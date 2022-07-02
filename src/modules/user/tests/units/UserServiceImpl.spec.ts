@@ -1,6 +1,6 @@
-import { userRepositoryMock, userDataMock } from '@modules/user/mocks/UserMock';
+import { UserServiceImpl } from '@modules/user/services/impl/UserServiceImpl';
+import { userRepositoryMock, userDataMock } from '@modules/user/tests/mocks/UserMock';
 import AppError from '@shared/errors/AppError';
-import { UserServiceImpl } from './UserServiceImpl';
 
 const userService = new UserServiceImpl(userRepositoryMock);
 

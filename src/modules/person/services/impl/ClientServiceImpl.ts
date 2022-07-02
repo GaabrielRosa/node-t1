@@ -19,7 +19,7 @@ class ClientServiceImpl implements ClientService {
   async findAll(): Promise<Client[]> {
     let clientList = await this.cacheProvider.recover<Client[]>('clients-list');
     
-    if (!clientList || clientList.length === 0) {
+    if (!clientList) {
       const clientListData = await this.clientRepository.findAll();
       clientList = clientListData.map(dto => dto as Client)
 
