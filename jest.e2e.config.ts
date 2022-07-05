@@ -5,7 +5,7 @@ export default {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/src/modules/**/services/impl/*.ts'
+    '<rootDir>/src/modules/**/infra/http/controller/*.ts'
   ],
   coverageDirectory: 'coverage/e2e',
   coverageProvider: 'v8',
