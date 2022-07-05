@@ -1,19 +1,15 @@
-import { DataSource } from 'typeorm';
 import request from 'supertest';
 
-import { initializeDbConnection } from '@shared/infra/typeorm';
 import { serverApp } from '@shared/infra/http/server';
-import { redisConnection } from '@shared/infra/redis';
+import { Database } from '@shared/infra/typeorm/tests/Database';
 
-let connection: DataSource;
+const database = new Database();
 
-describe('Client', () => {
+describe('Client Controller', () => {
   describe('FindAll', () => {
     beforeAll(async () => {
-      await redisConnection.flushall();
-      connection = await initializeDbConnection();
-      await connection.runMigrations();
-
+      const connection = await database.initializeConnection();
+      
       await connection.query(`INSERT INTO "user" (email, name, password) 
         VALUES ('${process.env.SEED_USER_EMAIL}', 'Test', '${process.env.SEED_USER_PASSWORD_HASH}')`);
 
@@ -22,10 +18,7 @@ describe('Client', () => {
     })
   
     afterAll(async () => {
-      await connection.dropDatabase();
-      await connection.destroy();
-      await redisConnection.flushall();
-      redisConnection.disconnect();
+      await database.closeConnection();
     })
 
     it('should be able to list all clients', async () => {

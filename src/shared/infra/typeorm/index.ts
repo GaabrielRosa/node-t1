@@ -1,24 +1,29 @@
-import { DataSource } from 'typeorm';
+import 'dotenv/config';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-const DATABASE_HOST = 'dbpostgres';
-const DATABASE_USER = 'postgres';
-const DATABASE_PORT = 5432;
-const DATABASE_PASSWORD = 'postgres';
-const DATABASE_DB = 'database_postgres';
+const entities = ['src/modules/**/infra/typeorm/entities/*.ts'];
+const migrations = ['src/shared/infra/typeorm/migrations/*{.ts,.js}'];
 
-const entities = [
-  'src/modules/**/infra/typeorm/entities/*.ts',
-];
+export const defaultDbConnectionOptions = {
+  type: 'postgres',
+  host: process.env.DATABASE_HOST,
+  port: Number(process.env.DATABASE_PORT), 
+  username: process.env.DATABASE_USER, 
+  password: process.env.DATABASE_PASSWORD,
+  entities,
+  migrations,
+  database: process.env.DATABASE_DB,
+} as DataSourceOptions;
 
 export const getDbConnection = new DataSource({
   type: 'postgres',
-  host: process.env.NODE_ENV === 'test' ? 'dbpostgrestest' : DATABASE_HOST,
-  port: DATABASE_PORT, 
-  username: DATABASE_USER, 
-  password: DATABASE_PASSWORD,
-  database: process.env.NODE_ENV === 'test' ? 'database_postgres_test' : DATABASE_DB,
-  entities: entities,
-  migrations: ['src/shared/infra/typeorm/migrations/*{.ts,.js}'],
+  host: process.env.DATABASE_HOST,
+  port: Number(process.env.DATABASE_PORT), 
+  username: process.env.DATABASE_USER, 
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.NODE_ENV === 'test' ? process.env.DATABASE_DB_TEST : process.env.DATABASE_DB,
+  entities,
+  migrations,
 });
 
 export async function initializeDbConnection() {
