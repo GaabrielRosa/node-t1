@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import logger from 'pino';
 
 import { getDbConnection } from '..';
 
@@ -12,4 +13,4 @@ async function create() {
   await connection.destroy();
 }
 
-create().then(() => console.log('Test user created successfully!'))
+create().then(() => logger().info('Test user created successfully!'));

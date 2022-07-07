@@ -30,6 +30,7 @@
     "ioredis": "^4.28.5",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
+    "pino": "^8.1.0",
     "rate-limiter-flexible": "^2.3.7",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.4.0",

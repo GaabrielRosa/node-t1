@@ -1,4 +1,5 @@
 import { uniqueNamesGenerator, names } from 'unique-names-generator';
+import logger from 'pino';
 
 import { getDbConnection } from '..';
 
@@ -24,4 +25,4 @@ async function create() {
   await connection.destroy();
 }
 
-create().then(() => console.log('Clients created successfully!'))
+create().then(() => logger().info('Clients created successfully!'));

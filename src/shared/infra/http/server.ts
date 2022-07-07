@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
+import logger from 'pino';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../../../swagger.json';
@@ -23,13 +24,12 @@ server.setConfig((app) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
   app.use(rateLimiter);
   app.use(contentTypeNegotiation);
-  app.use(acceptTypeNegotiation);    
-  //app.use(cors());
+  app.use(acceptTypeNegotiation);
 });
 
 server.setErrorConfig(app => {    
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    //console.error(err);
+    logger().info(err);
 
     if (err instanceof AppError) {
       return res.status(err.statusCode).json({

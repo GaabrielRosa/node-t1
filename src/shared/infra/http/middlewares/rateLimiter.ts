@@ -1,3 +1,4 @@
+import logger from 'pino';
 import { redisConnection } from '@shared/infra/redis';
 import { Request, Response, NextFunction } from 'express';
 import { Redis as RedisClient } from 'ioredis';
@@ -14,11 +15,11 @@ const limiter = new RateLimiterRedis({
 
 export async function rateLimiter(req: Request, res: Response, next: NextFunction): Promise<void>  {
   try {
-    //await limiter.consume(req.ip);
+    await limiter.consume(req.ip);
 
     return next();
   } catch (err) {
-    console.log(err)
+    logger().info(err);
 
     res.status(429).json({
       status: 'error',
