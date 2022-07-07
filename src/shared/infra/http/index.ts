@@ -1,5 +1,6 @@
 import { initializeDbConnection } from '../typeorm';
 import { serverApp } from './server';
+import logger from 'pino';
 
 const PORT = 3000;
 
@@ -7,6 +8,6 @@ const PORT = 3000;
   await initializeDbConnection();
 
   serverApp.listen(PORT, () => {
-    console.log('Server started on port '+PORT);
+    logger().info(`🚀 Server started on port ${PORT}`);
   });
 })();
