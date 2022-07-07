@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
 import logger from 'pino';
+import cors from 'cors';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../../../swagger.json';
@@ -25,6 +26,9 @@ server.setConfig((app) => {
   app.use(rateLimiter);
   app.use(contentTypeNegotiation);
   app.use(acceptTypeNegotiation);
+  app.use(cors({
+    optionsSuccessStatus: 200,
+  }));
 });
 
 server.setErrorConfig(app => {    
