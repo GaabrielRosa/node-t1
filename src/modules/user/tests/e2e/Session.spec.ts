@@ -24,7 +24,7 @@ describe('Session Controller', () => {
         .set('Accept', 'application/json')
         .send({
           email: 'test@test.com',
-          password: 'admin',
+          password: process.env.TEST_USER_PASSWORD,
         })
 
       expect(response.status).toBe(200);

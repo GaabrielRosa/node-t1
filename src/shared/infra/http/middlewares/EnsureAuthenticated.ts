@@ -13,7 +13,7 @@ interface TokenPayload {
 
 export class EnsureAuthenticated extends BaseMiddleware {
   
-  public handler(req: Request, res: Response, next: NextFunction) {
+  public handler(req: Request, _res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {

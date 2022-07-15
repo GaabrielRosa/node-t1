@@ -32,7 +32,7 @@ server.setConfig((app) => {
 });
 
 server.setErrorConfig(app => {    
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     logger().info(err);
 
     if (err instanceof AppError) {

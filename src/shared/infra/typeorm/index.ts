@@ -27,5 +27,5 @@ export const getDbConnection = new DataSource({
 });
 
 export async function initializeDbConnection() {
-  return await getDbConnection.initialize();
+  return getDbConnection.initialize();
 }
