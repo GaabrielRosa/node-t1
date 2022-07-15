@@ -15,12 +15,10 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<UserDTO | null> {
-    const user = await this.repository.findOne({
+    return this.repository.findOne({
       where: {
         email,
       }
-    })
-
-    return user;
+    });
   }
 }

@@ -15,9 +15,7 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   async findAll(): Promise<ClientDTO[]> {
-    const clientList = await this.repository.find();
-
-    return clientList;
+    return this.repository.find();
   }
 
 }

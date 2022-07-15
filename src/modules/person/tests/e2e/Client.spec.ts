@@ -29,7 +29,7 @@ describe('Client Controller', () => {
         .set('Accept', 'application/json')
         .send({
           email: 'test@test.com',
-          password: 'admin',
+          password: process.env.TEST_USER_PASSWORD,
         })
 
       const token = responseToken.body.token;

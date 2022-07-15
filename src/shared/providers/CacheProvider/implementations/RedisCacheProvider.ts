@@ -1,4 +1,4 @@
-import Redis, { Redis as RedisClient } from 'ioredis';
+import { Redis as RedisClient } from 'ioredis';
 import { injectable } from 'inversify';
 
 import CacheProvider from '../models/CacheProvider';
@@ -23,9 +23,7 @@ class RedisCacheProvider implements CacheProvider {
       return null;
     }
 
-    const parsedData = JSON.parse(data) as T;
-
-    return parsedData;
+    return JSON.parse(data) as T;
   }
 }
 
