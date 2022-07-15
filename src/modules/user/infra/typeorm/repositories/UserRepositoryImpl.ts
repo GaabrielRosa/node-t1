@@ -15,7 +15,7 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<UserDTO | null> {
-    return await this.repository.findOne({
+    return this.repository.findOne({
       where: {
         email,
       }
